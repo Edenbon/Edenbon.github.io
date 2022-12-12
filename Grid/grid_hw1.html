@@ -10,12 +10,15 @@
             margin: 0;
             padding: 0;
         }
+        body{
+            --col-count:3;
+        }
         .card{
             display: flex;
             flex-wrap: wrap;
             box-sizing: border-box;
             padding: 10px;           
-            margin: 15px;
+            margin: 10px;
             border: 1px solid black;
             text-align: center;
             align-items: center;
@@ -39,18 +42,20 @@
                 max-width: 1200px;
             }
             .card{
-                width: calc(100% / 3 - 30px);
+                width: calc(100% / var(--col-count) - 20px);
                 flex-direction: column;               
             }
             
         }
         @media screen and (min-width:1200px){
             .card:nth-child(-n+2){
-                width: calc(100% / 2 - 30px);
+                --col-count:2;
+                width: calc(100% / var(--col-count) - 20px);
                 flex-direction: row;
             }
             .card:nth-child(n+3){
-                width: calc(100% / 4 - 30px);
+                --col-count:4;
+                width: calc(100% / var(--col-count) - 20px);
                 position: relative;
                 overflow: hidden;
             }
