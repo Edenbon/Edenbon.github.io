@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .card{
+            display: flex;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+            padding: 10px;           
+            margin: 15px;
+            border: 1px solid black;
+            text-align: center;
+            align-items: center;
+        }
+        
+        .card .pic{
+            width: 50%;
+        }
+        .card .pic img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .card .text{
+            width: 50%;
+        }
+        @media screen and (min-width:768px){
+            .wrap{
+                display: flex;
+                flex-wrap: wrap;
+                margin: auto;
+                max-width: 1200px;
+            }
+            .card{
+                width: calc(100% / 3 - 30px);
+                flex-direction: column;               
+            }
+            
+        }
+        @media screen and (min-width:1200px){
+            .card:nth-child(-n+2){
+                width: calc(100% / 2 - 30px);
+                flex-direction: row;
+            }
+            .card:nth-child(n+3){
+                width: calc(100% / 4 - 30px);
+                position: relative;
+                overflow: hidden;
+            }
+            .card:nth-child(n+3) .pic img{
+                width: 100%;
+                vertical-align: top;
+            }
+            .card:nth-child(n+3) .text{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                background-color: #0008;
+                color: #fff;
+                padding: 10px;
+                top: 100%;
+                /*transition: 1s;*/
+            }
+            .card:nth-child(n+3):hover .text{
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="card">
+            <div class="pic">
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+            <div class="text">
+                <h3>text</h3>
+                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, quidem!</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="pic">
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+            <div class="text">
+                <h3>text</h3>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. In, laboriosam!</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="pic">
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+            <div class="text">
+                <h3>text</h3>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Labore, sit?</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="pic">
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+            <div class="text">
+                <h3>text</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, perspiciatis.
+                </p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="pic">
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+            <div class="text">
+                <h3>text</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, ea?</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="pic">
+                <img src="https://picsum.photos/200/200/?random=10">
+            </div>
+            <div class="text">
+                <h3>text</h3>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mollitia, amet?</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
