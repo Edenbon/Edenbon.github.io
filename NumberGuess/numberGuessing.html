@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/Whoscall/reset.css">
+    <style>
+        main{
+            width: 1080px;
+            display: flex;
+            margin: auto;
+        }
+        .pw{
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+        .btns{
+            display: grid;
+            grid-template-rows: 100px 100px 100px 100px 100px;
+            grid-template-columns: 100px 100px 100px;
+            
+        }
+        .btns .guess-btn{
+            grid-row: -2 / -1;
+            grid-column: -2 / -1;
+        }
+        .btns .guess-btn, .btn-num, .reset , .clear, .show-answer{
+            border-radius: 100px;
+            margin: 5px;
+            border: 1px solid white;
+            font-size: 20px;
+        }
+        .title h1{
+            font-size: 36px;
+            font-weight: bold;
+            align-items: center;
+            text-align: center;
+            margin: 10px;
+        }
+        .main-input{
+            display: flex;
+        }
+        input{
+            width: 200px;
+            height: 50px;
+        }
+        p{
+            font-size: 30px;
+            margin: 20px;
+        }
+        .btns .btn-num:hover{
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="pw">
+            <div class="title">
+                <h1>終極密碼</h1>
+            </div>
+            <div class="main-input">
+                <input type="text" id="num-input">
+            <p>0~100</p>
+            </div>
+            
+            <div class="btns">
+                <button class="btn-num">1</button>
+                <button class="btn-num">2</button>
+                <button class="btn-num">3</button>
+                <button class="btn-num">4</button>
+                <button class="btn-num">5</button>
+                <button class="btn-num">6</button>
+                <button class="btn-num">7</button>
+                <button class="btn-num">8</button>
+                <button class="btn-num">9</button>
+                <button class="reset">Reset</button>
+                <button class="btn-num">0</button> 
+                <button class="clear">Clear</button>
+                <button class="show-answer">Answer</button>
+                <button class="guess-btn">Guess</button>             
+            </div>
+        </div>
+    </main>
+    
+    
+
+    <script>
+        //封裝:隱藏細節,提取重點(語意)
+        //1. 產生1-100的隨機整數
+        let answer = getAnswerNumber();
+        //輸入數字
+        const inputDom = document.getElementById('num-input');
+        //按下按鈕 監聽click事件
+        const btn = document.querySelector('.guess-btn');
+        ///宣告輸入數字變數
+        let inputValue
+        //猜的數字變數
+        let guessNumber
+        //宣告最大最小值
+        let min = 1;
+        let max = 100;
+        //宣告p
+        const p = document.querySelector('p');
+
+        //產生1-100的隨機整數
+        function getAnswerNumber(){
+            return Math.floor(Math.random() * 100 + 1);
+        }
+        console.log(answer);
+        
+        //鍵盤
+        const btnNum = document.querySelectorAll('.btn-num');
+        btnNum.forEach(element => {
+            element.addEventListener('click', function(){
+            inputDom.value += element.innerHTML;
+        })});
+        //clear清除input裡輸入的東西
+        let clear = document.querySelector('.clear');
+        clear.addEventListener('click', function(){inputDom.value = ''}); 
+        //看答案
+        let showAnswer = document.querySelector('.show-answer');
+        showAnswer.addEventListener('click', function(){
+                alert(answer);
+                answer =getAnswerNumber();
+                min = 1;
+                max = 100;
+                p.innerText = `${min} ~ ${max}`;
+            });
+        btn.addEventListener('click', function(){
+            //取得輸入的值
+            let inputValue = inputDom.value;
+            guessNumber = parseInt(inputValue,10);
+            if(isNaN(guessNumber)){
+                alert('欠罵');
+                inputDom.value='';
+            }
+            //判斷是否為答案
+            if(guessNumber === answer){
+                alert('過關');
+                inputDom.value ='';
+                min = 1;
+                max = 100;
+                p.innerText = `${min} ~ ${max}`;
+                answer = getAnswerNumber();
+                inputDom.value ='';
+                
+            }else{
+                //是否超過範圍
+                if(guessNumber < min || guessNumber > max){
+                alert('欠罵');
+                inputDom.value='';
+                }else{
+                    //看要不要替換數字
+                    if(guessNumber < answer){
+                        min = guessNumber;
+                    }else if(guessNumber > answer){
+                        max = guessNumber;
+                    }
+                    //顯示範圍
+                    p.innerText = `${min} ~ ${max}`;
+                    inputDom.value ='';
+                }
+            }
+            });
+            //reset
+            let reset = document.querySelector('.reset');
+            reset.addEventListener('click', function(){
+                min = 1;
+                max = 100;
+                p.innerText = `${min} ~ ${max}`;
+                answer = getAnswerNumber();
+                inputDom.value ='';
+            });
+    </script>
+</body>
+</html>
