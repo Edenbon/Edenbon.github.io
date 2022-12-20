@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="reset.css">
+    <script src="https://kit.fontawesome.com/ea1798ce02.js" crossorigin="anonymous"></script>
     <style>
+        *{
+            box-sizing: border-box;
+        }
         .container{
             display: flex;
             justify-content: space-between;
@@ -63,7 +67,8 @@
             .HB span{
                 width: 80%;
                 height: 2px;
-                background-color: #fff;}
+                background-color: #fff;
+            }
             .logo{
                 width: 50px;
             }
@@ -76,21 +81,22 @@
                 opacity: 0;
                 transition: 1s;
             }
-            #menu-control:checked ~ .main-header .main-nav{
+            #menu-control:checked ~ .main-header .main-nav {
                 left: 0;
                 opacity: 1;
             }
             #menu-control:checked ~ .main-header .HB span:first-child {
-                display: none;
+                transform: rotate(45deg) translate(40%);
+                transition: 0.5s ease-out;
             }
             #menu-control:checked ~ .main-header .HB span:nth-child(2) {
-                transform: rotate(45deg) translate(30%);
-                transition: 0.5s ease-out;
+                background-color: #ff2882;
             }
             #menu-control:checked ~ .main-header .HB span:nth-child(3) {
-                transform: rotate(-45deg) translate(30%);
+                transform:rotate(-45deg) translate(40%);;
                 transition: 0.5s ease-out;
             }
+            
             .main-nav a {
                 display: block;
                 width: 100%;
@@ -124,6 +130,7 @@
                 background-color: white;
                 color: #37003c;
             }
+            
         }
         
         @media screen and (width >=768px){
@@ -188,7 +195,9 @@
             </label>
             <nav class="main-nav">
                 <ul class="main-menu">
-                    <li>
+                    <!--<input type="checkbox" id="control1">  --> 
+                    <li>      
+                        <!--<label for="control1"><i class="fa-solid fa-chevron-down"></i></label>  -->                      
                         <a href="#">Premier League</a>
                         <ul class="sub-menu">
                             <li><a href="#">Home</a></li>
@@ -198,14 +207,18 @@
                             <li><a href="#">News</a></li>
                         </ul>
                     </li>
+                    <!--<input type="checkbox" id="control2">  --> 
                     <li>
+                        <!--<label for="control2"><i class="fa-solid fa-chevron-down"></i></label>  -->                       
                         <a href="">Fantasy</a>
                         <ul class="sub-menu">
                             <li><a href="#">Fantasy</a></li>
                             <li><a href="#">Fan Draft</a></li>
                         </ul>
                     </li>
+                    <!--<input type="checkbox" id="control3">  -->                  
                     <li>
+                        <!--<label for="control3"><i class="fa-solid fa-chevron-down"></i></label>  -->                       
                         <a href="">Communities</a>
                         <ul class="sub-menu">
                             <li><a href="#">Programmes</a></li>
@@ -213,7 +226,9 @@
                             <li><a href="#">VAR</a></li>
                         </ul>
                     </li>
+                    <!--<input type="checkbox" id="control4">  -->                   
                     <li>
+                        <!--<label for="control4"><i class="fa-solid fa-chevron-down"></i></label>  -->                       
                         <a href="">Clubs</a>
                         <ul class="sub-menu">
                             <li><a href="#">Arsenal</a></li>
@@ -223,7 +238,9 @@
                             <li><a href="#">...</a></li>
                         </ul>
                     </li>
+                    <!-- <input type="checkbox" id="control5"> -->
                     <li>
+                        <!--<label for="control5"><i class="fa-solid fa-chevron-down"></i></label>  -->                       
                         <a href="#">SIGN IN</a>
                     </li>
                 </ul>
