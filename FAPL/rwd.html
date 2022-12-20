@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="reset.css">
+    <style>
+        .container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            background-color: #37003c;
+        }
+        .logo{
+            width: 100px;
+        }
+        .logo img{
+            width: 100%;
+            vertical-align: middle;
+        }
+        .main-nav a{
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-weight: bold;
+        }
+        .main-menu{
+            display: flex;
+            position: relative;
+        }
+        .main-menu a{
+            color: white;
+        }
+        .main-menu li:hover > a{
+            background-color: black;
+        }
+        .main-menu li::after{
+            content: "";
+            position: absolute;
+        }
+        .sub-menu{
+            color: #37003c;
+        }
+        .sub-menu li{
+            position: relative;
+        }
+        #menu-control{
+            display: none;
+        }
+        @media screen and (width < 768px){
+            .HB{
+                width: 40px;
+                height: 40px;
+                background-color: #ff2882;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+            .HB span{
+                width: 80%;
+                height: 2px;
+                background-color: #fff;}
+            .logo{
+                width: 50px;
+            }
+            .main-nav {
+                position: absolute;
+                background-color: #37003c;
+                width: 100%;
+                top: 100%;
+                left: -100%;
+                opacity: 0;
+                transition: 1s;
+            }
+            #menu-control:checked ~ .main-header .main-nav{
+                left: 0;
+                opacity: 1;
+            }
+            #menu-control:checked ~ .main-header .HB span:first-child {
+                display: none;
+            }
+            #menu-control:checked ~ .main-header .HB span:nth-child(2) {
+                transform: rotate(45deg) translate(30%);
+                transition: 0.5s ease-out;
+            }
+            #menu-control:checked ~ .main-header .HB span:nth-child(3) {
+                transform: rotate(-45deg) translate(30%);
+                transition: 0.5s ease-out;
+            }
+            .main-nav a {
+                display: block;
+                width: 100%;
+                padding: 20px;
+            }
+            .main-menu{
+                flex-direction: column;
+            }
+            .main-menu li{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .main-menu li:hover > a{
+                background-color: black;
+            }
+            .main-menu li:hover .sub-menu{
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+            }
+            .sub-menu{
+                position: relative;
+                display: none;
+                background-color: #ff2882;
+            }
+            .sub-menu li:hover a{
+                text-decoration: underline;
+                background-color: white;
+                color: #37003c;
+            }
+        }
+        
+        @media screen and (width >=768px){
+            .HB{
+                display: none;
+            }
+            .logo{
+                width: 20%;
+            }
+            .main-nav{
+                position: relative;
+                width: 80%;
+            }
+            .main-menu{
+                width: 20%;
+                position: relative;
+            }
+            .main-nav a{
+                padding: 50px 25px;
+                text-align: center;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .main-menu li{
+                white-space: nowrap;
+            }
+            .main-menu li:hover .sub-menu{
+                display: block;
+            }
+            .sub-menu{
+                position: absolute;
+                display: none;
+                background-color: #ff2882;
+                top: 100%;
+                text-align: center;
+                width: 100%;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .sub-menu li:hover a{
+                text-decoration: underline;
+                background-color: white;
+                color: #37003c;
+            }
+            .sub-menu a{
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" id="menu-control">
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="#"><img src="logo2.png" alt=""></a>
+            </div>
+            <label for="menu-control" class="HB">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <nav class="main-nav">
+                <ul class="main-menu">
+                    <li>
+                        <a href="#">Premier League</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Fixtures</a></li>
+                            <li><a href="#">Awards</a></li>
+                            <li><a href="#">Tickies</a></li>
+                            <li><a href="#">News</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="">Fantasy</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Fantasy</a></li>
+                            <li><a href="#">Fan Draft</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="">Communities</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Programmes</a></li>
+                            <li><a href="#">Facilities</a></li>
+                            <li><a href="#">VAR</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="">Clubs</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Arsenal</a></li>
+                            <li><a href="#">Everton</a></li>
+                            <li><a href="#">Manchester City</a></li>
+                            <li><a href="#">Tottenham Hotspur</a></li>
+                            <li><a href="#">...</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">SIGN IN</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>
