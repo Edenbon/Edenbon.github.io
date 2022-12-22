@@ -2199,28 +2199,27 @@
 
                 //3.children - for loop - get element - push heroArray
 
-
-
-
                 //1.從DOM建立英雄人物資料
-                let heroDomList =Array.from(container.children);
-                heroDomList.forEach((node, index) => {
-                    let heroObj = {
-                        id:++index,
-                        name: node.querySelector('.card').getAttribute('id'),
-                        content:node.querySelector('.card-text').innerText,
-                        url:node.querySelector('.card-img-top').src
-                    }
+                // let heroDomList =Array.from(container.children);
+                // heroDomList.forEach((node, index) => {
+                //     let heroObj = {
+                //         id:++index,
+                //         name: node.querySelector('.card').getAttribute('id'),
+                //         content:node.querySelector('.card-text').innerText,
+                //         url:node.querySelector('.card-img-top').src
+                //     }
 
-                    heroArray.push(heroObj)
-                })
+                //     heroArray.push(heroObj)
+                // })
 
-                // heroArray.from(container.children).map((node, index) => ({
-                //     id:++index,
-                //     name: node.querySelector('.card').getAttribute('id'),
-                //     content:node.querySelector('.card-text').innerText,
-                //     url:node.querySelector('card-img-top').src
-                // }))
+                heroArray = Array.from(container.children).map((node, index) => ({
+                    id:++index,
+                    name: node.querySelector('.card').getAttribute('id'),
+                    content:node.querySelector('.card-text').innerText,
+                    url:node.querySelector('.card-img-top').src
+                }))
+
+                console.log(heroArray);
 
                 //2.清除container
                 document.querySelector("#container").innerHTML = ""
@@ -2244,10 +2243,37 @@
                     alert("請先建立陣列資料");
                     return;
                 }
-                
+                document.querySelector('#container').innerHTML = "";
                 alert("以表格呈現英雄人物資料！");
+
+                let table = document.createElement('table');
+                table.setAttribute("class", "table table-bordered table-striped table-dark");
+
+                let thead = document.createElement('thead');
+                let tbody = document.createElement('tbody');
+                let theadTr = document.createElement('tr');
+
+                Object.keys(heroArray[0]).forEach(key => {
+                    let th = document.createElement('th');
+                    th.innerText = key;
+                    theadTr.appendChild(th);
+                })
+                thead.appendChild(theadTr);
+
+                heroArray.forEach(hero => {
+                    let tr = document.createElement('tr');
+                    Object.keys(hero).forEach(key => {
+                        let td = document.createElement('td');
+                        td.innerText = hero[key];
+                        tr.appendChild(td);
+                    })
+                    tbody.appendChild(tr);
+                })
+                table.appendChild(thead);
+                table.appendChild(tbody);
                 
-                let heroDomTable = 
+
+                container.appendChild(table);
             });
         }
 
