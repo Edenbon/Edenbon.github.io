@@ -32,16 +32,16 @@ window.onload = function() {
         }
         setImg();
     })
-    color.addEventListener('click', function(){
-        if(num < 24){
-            num++;
-        }else{
-            num = 18;
-        }
-        imgURL = `/Edenbon.github.io/Altis360/TOYOTA/${num}/360EXT_1_${num}_${index}.png`;
-        img.setAttribute("src", imgURL);
-        pic.append(img);
-    })
+    // color.addEventListener('click', function(){
+    //     if(num < 24){
+    //         num++;
+    //     }else{
+    //         num = 18;
+    //     }
+    //     imgURL = `/Edenbon.github.io/Altis360/TOYOTA/${num}/360EXT_1_${num}_${index}.png`;
+    //     img.setAttribute("src", imgURL);
+    //     pic.append(img);
+    // })
 }
 function GenCar() {
     //建立DOM
