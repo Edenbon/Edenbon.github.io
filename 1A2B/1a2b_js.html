@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>1A2B</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        .container{
+            width: 600px;
+            margin: auto;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p>請輸入4個不重複的數字</p>
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <button type="button" class="start btn btn-outline-dark">開始</button>
+            <button type="button" class="reset btn btn-outline-dark">重新</button>
+            <button type="button" class="check btn btn-outline-dark">看答案</button>
+        </div>
+        <div class="input-group">
+            <span class="input-group-text">輸入答案</span>
+            <input type="text" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <button class="submit btn btn-outline-secondary" type="button" value="submit"> Guess!</button>
+        </div>
+        <ul class="guess-list list-group border rounded"></ul>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+        </script>
+
+    <script>
+        let answer = [];
+        let start = document.querySelector('.start');
+        let reset = document.querySelector('.reset');
+        let checkAnswer = document.querySelector('.check');
+        let submit = document.querySelector('.submit');
+        let input = document.querySelector('.form-control');
+        let guessList = document.querySelector('.guess-list');
+
+        function getAnswer() {
+            while (answer.length < 4) {
+                let rand = Math.floor(Math.random() * 10);
+                if (answer.includes(rand) == false) {
+                    answer.push(rand);
+                }
+            }
+        }
+
+        window.onload = function () {
+            reset.disabled = true;
+            checkAnswer.disabled = true;
+            submit.disabled = true;
+            submit.addEventListener('click', Game);
+            start.addEventListener('click', function(){
+                reset.disabled = false;
+                checkAnswer.disabled = false;
+                start.disabled = true;
+                submit.disabled = false;
+                getAnswer();
+            });
+            checkAnswer.addEventListener('click', function(){
+                alert (`答案: ${answer.join('')}`); 
+            });
+            reset.addEventListener('click', function(){
+                history.go(0);
+                start.disabled = false;
+            });
+        }
+        
+        function Game() {
+            let li = document.createElement('li');
+            li.classList.add('list-group-item', 'guess');
+            let badge = document.createElement('span');
+            let guess = document.createElement('span');
+            guess.classList.add('guess_num');
+            if(isNaN(input.value) || input.value.length != 4){
+                alert('請輸入不重複的四位數字');
+                input.value = "";
+            }else if (input.value == answer.join('')) {
+                badge.classList.add('badge', 'bg-success');
+                badge.innerText = "4 A 0 B";
+                guess.innerText = input.value;
+                li.appendChild(badge);
+                li.appendChild(guess);
+                guessList.appendChild(li);
+                alert("答對了 !");
+            }else if (input.value != answer.join('')) {
+                badge.classList.add('badge', 'bg-danger') ;
+                let guessNum = input.value;
+                let intersect = answer.filter(x => guessNum.includes(x));
+                let a = intersect.filter(x => answer.indexOf(x) == guessNum.indexOf(x));
+                let b = intersect.length - a.length;
+                badge.innerText = `${a.length} A ${b} B`;
+                guess.innerText = input.value;
+
+                li.appendChild(badge);
+                li.appendChild(guess);
+                guessList.appendChild(li);
+            }           
+            input.value = "";
+        }
+    </script>
+</body>
+
+</html>
