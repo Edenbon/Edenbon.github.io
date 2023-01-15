@@ -33,8 +33,8 @@
                 <div class="col-6">
                     <div class="row">
                         <h2 class="w-100 text-center">
-                            YouBike站點
-                            <strong></strong>                           
+                            台北市YouBike站點2.0
+                            <!-- <strong></strong> -->
                         </h2>
                     </div>
                     <div class="row">
@@ -61,7 +61,7 @@
             let markers = L.markerClusterGroup() //marker叢集
 
             //DOM
-            const bikeText = document.querySelector('strong');
+            //const bikeText = document.querySelector('strong');
             const districtSelect = document.getElementById('district')
             const stepSelect = document.getElementById('step')
 
@@ -85,18 +85,18 @@
                     .then(jsonData => {
                         [areaData, bikeData] = jsonData
                     
-                        bikeAreaData =bikeData.map(x => {
-                            let area = areaData.find(x.District == y.sarea)
+                        bikeAreaData = bikeData.map(x => {
+                            let area = areaData.find(y => y.District == x.sarea)
                             return {
                                 countyTown: `${x.sarea}`,
                                 name: `${x.sna}`,
                                 lat: area != undefined ? area.Lat : undefined,
                                 lng: area != undefined ? area.Lng : undefined
                             }
-                        }).filter(x => x.lng != undefined).groupBy('countyTown')
+                        }).filter(x => x.lng != undefined).groupBy('name')
                         
                         renderMarker();
-                        genSelectOptions()();
+                        genSelectOptions();
                     })
             }
             
@@ -105,36 +105,36 @@
                 //渲染座標
                 Object.keys(bikeAreaData).forEach(key => {
                     let data = bikeAreaData[key]
-                    let bike = L.marker([data.lat, data.lng])
+                    let marker = L.marker([data[0].lat, data[0].lng])
 
                     marker.bindPopup(
                         `
-                        <h4>${data.sna}</h4>
+                        <h4>${data[0].name}</h4>
                         `
                     )
                     marker.addEventListener('click', function() {
-                        bikeText.innerText = data[0].countyTown;
-                        
-                //地圖圖片疊加
-                //疊加
+                        bikeText.innerText = data.countyTown;
+                        })
+                    //地圖圖片疊加
+                    //疊加
+                    markers.addLayer(marker)
+                })
                 map.addLayer(markers)
-            })
-        })
-    }
+            }
 
             //建立Select-option下拉式選單
             function genSelectOptions(){
-                ['請選擇', ...new Set(areaData.map(x => x.District))].forEach(district => {
+                ['請選擇', ...new Set(bikeData.map(x => x.sarea))].forEach(district => {
                     let option = document.createElement('option');
-                    option.innerText = District;
+                    option.innerText = district
                     option.value = district == ' 請選擇' ? '' : district;
                     districtSelect.appendChild(option)
                 })
-                countySelect.onchange = function() {
+                districtSelect.onchange = function() {
                     if(this.value != ''){
                         //改變地圖焦點
-                        let county = areaData.find(x => x.sarea == this.value)
-                        map.setView([sarea.Lat, sarea.Lng], 12)
+                        let county = bikeData.find(x => x.sarea == this.value)
+                        map.setView([county.lat, county.lng], 12)
                     }
                 }
             }
@@ -143,7 +143,7 @@
             //window.onload
             window.onload = function() {
                 initMap();
-                setMapItem()
+                setMapItem();
             }
             //自訂義groupby
             Array.prototype.groupBy = function(prop){
