@@ -88,10 +88,11 @@
                         bikeAreaData = bikeData.map(x => {
                             let area = areaData.find(y => y.District == x.sarea)
                             return {
+                                ...x,
                                 countyTown: `${x.sarea}`,
                                 name: `${x.sna}`,
-                                lat: area != undefined ? area.Lat : undefined,
-                                lng: area != undefined ? area.Lng : undefined
+                                // lat: area != undefined ? area.Lat : undefined,
+                                // lng: area != undefined ? area.Lng : undefined
                             }
                         }).filter(x => x.lng != undefined).groupBy('name')
                         
@@ -102,22 +103,35 @@
             
             function renderMarker(){
                 if(markers) markers.clearLayers();
+                let data;
+                let marker;
+                let markerClick;
                 //渲染座標
                 Object.keys(bikeAreaData).forEach(key => {
-                    let data = bikeAreaData[key]
-                    let marker = L.marker([data[0].lat, data[0].lng])
+                    data = bikeAreaData[key]
 
-                    marker.bindPopup(
-                        `
-                        <h4>${data[0].name}</h4>
-                        `
-                    )
-                    marker.addEventListener('click', function() {
+                    for(let i = 0; i < data.length; i++){
+                        let marker = L.marker([data[i].lat, data[i].lng])
+                        map.addLayer(marker)
+
+                        markerClick = marker.bindPopup(
+                            `
+                            <h4>${data[i].name}</h4>
+                            `
+                        )
+                        marker.addEventListener('click', function() {
                         bikeText.innerText = data.countyTown;
                         })
+                    }
+                    
+
+                    
+                    
+
+                    
                     //地圖圖片疊加
                     //疊加
-                    markers.addLayer(marker)
+                    
                 })
                 map.addLayer(markers)
             }
@@ -134,7 +148,7 @@
                     if(this.value != ''){
                         //改變地圖焦點
                         let county = bikeData.find(x => x.sarea == this.value)
-                        map.setView([county.lat, county.lng], 12)
+                        map.setView([county.lat, county.lng], 15)
                     }
                 }
             }
