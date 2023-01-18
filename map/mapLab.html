@@ -34,8 +34,8 @@
                     <div class="row">
                         <h2 class="w-100 text-center">
                             台北市YouBike站點2.0
-                            <!-- <strong></strong> -->
                         </h2>
+                        
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
@@ -45,6 +45,12 @@
                             </select>
                         </div>
                     </div>
+                    <!-- <div class="row">
+                        <div class="col-12">
+                            <strong></strong>
+                            <p></p>
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -61,7 +67,8 @@
             let markers = L.markerClusterGroup() //marker叢集
 
             //DOM
-            //const bikeText = document.querySelector('strong');
+            // const bikeText = document.querySelector('strong');
+            // const text = document.querySelector('p');
             const districtSelect = document.getElementById('district')
             const stepSelect = document.getElementById('step')
 
@@ -90,7 +97,7 @@
                             return {
                                 ...x,
                                 countyTown: `${x.sarea}`,
-                                name: `${x.sna}`,
+                                name: `${x.sna}`
                                 // lat: area != undefined ? area.Lat : undefined,
                                 // lng: area != undefined ? area.Lng : undefined
                             }
@@ -118,11 +125,19 @@
                             <h4>${data[i].name}</h4>
                             `
                         )
-                        marker.addEventListener('click', function() {
-                        bikeText.innerText = data.countyTown;
-                        })
+                        // marker.addEventListener('click', function() {
+                        //     bikeText.innerText = data[i].name;
+                        //     text.innerText = data[i].countyTown;
+                            
+                        // })
                         markers.addLayer(marker)
-                    }                    
+                    }
+                    
+
+                    
+                    
+
+                    
                     //地圖圖片疊加
                     //疊加
                     
