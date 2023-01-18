@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Slot</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/ea1798ce02.js" crossorigin="anonymous"></script>
+        <style>
+            *{
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            i {
+                font-size: 48px;
+            }
+            .col-8{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+            [box-id] {
+                height: 80px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: none;
+                transition: 0.3s;
+            }
+
+            [box-id].active{
+                border: solid 5px red;
+                box-shadow: 0 0 20px red;
+                transition: none;
+            }
+
+            #msg{
+                font-size: 36px;
+                text-align: center
+            }
+        </style>
+    </head>
+    <body>       
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-2" box-id="1"></div>
+                <div class="col-2" box-id="2"></div>
+                <div class="col-2" box-id="3"></div>
+                <div class="col-2" box-id="4"></div>
+                <div class="col-2" box-id="5"></div>
+                <div class="col-2" box-id="6"></div>
+            </div>
+            <div class="row">
+                <div class="col-2" box-id="20"></div>
+                <div class="col-8"><h1>今日運勢</h1></div>
+                <div class="col-2" box-id="7"></div>
+            </div>
+            <div class="row">
+                <div class="col-2" box-id="19"></div>
+                <div class="col-8 m-auto">
+                    <p id="msg" class="m-0"></p>
+                </div>
+                <div class="col-2" box-id="8"></div>
+            </div>
+            <div class="row">
+                <div class="col-2" box-id="18"></div>
+                <div class="col-8"></div>
+                <div class="col-2" box-id="9"></div>
+            </div>
+            <div class="row">
+                <div class="col-2" box-id="17"></div>
+                <div class="col-8">
+                    <button class="btn btn-secondary w-100">Start</button>
+                </div>
+                <div class="col-2" box-id="10"></div>
+            </div>
+            <div class="row">
+                <div class="col-2" box-id="16"></div>
+                <div class="col-2" box-id="15"></div>
+                <div class="col-2" box-id="14"></div>
+                <div class="col-2" box-id="13"></div>
+                <div class="col-2" box-id="12"></div>
+                <div class="col-2" box-id="11"></div>
+            </div>
+        </div>
+        
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script>
+            //宣告
+            let steps = 0; // 剩餘要走幾步
+            let allSteps = 0; //全部的步數
+            let current = 0; //目前走到哪一格
+            let speed; //速率(數字越大走越慢)
+            //格子資料
+            let brickData = [
+                {
+                    id:'1',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '吉'
+                    }
+                },
+                {
+                    id:'2',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '小吉'
+                    }
+                },
+                {
+                    id:'3',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '中吉'
+                    }
+                },
+                {
+                    id:'4',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '大吉'
+                    }
+                },
+                {
+                    id:'5',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '末吉'
+                    }
+                },
+                {
+                    id:'6',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '財運佳'
+                    }
+                },
+                {
+                    id:'7',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '事業運佳'
+                    }
+                },
+                {
+                    id:'8',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '有桃花'
+                    }
+                },
+                {
+                    id:'9',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '沒有桃花'
+                    }
+                },
+                {
+                    id:'10',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '事業運差'
+                    }
+                },
+                {
+                    id:'11',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '財運差'
+                    }
+                },
+                {
+                    id:'12',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '建議躺平'
+                    }
+                },
+                {
+                    id:'13',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '財運普'
+                    }
+                },
+                {
+                    id:'14',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '天選之人'
+                    }
+                },
+                {
+                    id:'15',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '時來運轉'
+                    }
+                },
+                {
+                    id:'16',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '人定勝天'
+                    }
+                },
+                {
+                    id:'17',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '一般'
+                    }
+                },
+                {
+                    id:'18',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '身體差'
+                    }
+                },
+                {
+                    id:'19',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '適合抽獎'
+                    }
+                },
+                {
+                    id:'20',
+                    color:'red',
+                    icon:'fa-solid fa-question',
+                    target: function(){
+                        return '會有意外之財'
+                    }
+                }
+            ]
+            //DOM
+            const startBtn = document.querySelector('button');
+            const msgBox = document.querySelector('#msg');
+            let bricks;
+            //function
+                function renderBrick(){
+                    bricks = document.querySelectorAll('[box-id]');
+                    bricks = Array.from(bricks).sort((a,b) =>{
+                        return a.getAttributeNode('box-id').value - b.getAttributeNode('box-id').value
+                    })
+                    bricks.forEach(x =>{
+                        let id = x.getAttributeNode('box-id').value;
+                        let data = brickData.find(x =>x.id == id);
+                        let icon = document.createElement('i');
+                        icon.setAttribute('class', data.icon);
+                        icon.style.color = data.color;
+                        x.appendChild(icon);
+                    })
+                }
+                function go(){
+                    speed = 50;
+
+                    let random = Math.floor(Math.random() * brickData.length);
+                    //steps = random; v1
+                    steps = random + (3 * bricks.length); //v2多跑幾圈
+                    allSteps = steps;
+                    turnAround();
+                }
+                function turnAround(){
+                    bricks[current].classList.remove('active'); //把現在位置的關掉
+                    current++;
+
+                    if(current >= bricks.length) current = 0;
+
+                    bricks[current].classList.add('active');
+                    steps--;
+
+                    if(steps > 0) {
+                        //還沒走完
+                        setTimeout(turnAround, speed);
+
+                        //當剩餘步數剩下1/3,減速
+                        if(steps < Math.floor((allSteps / 3))) speed += 7 //變速效果
+                    }else{
+                        //走完
+                        msgBox.innerText = brickData[current].target();
+                    }
+                }
+            //window.onload
+            window.onload = function(){
+                renderBrick();
+                startBtn.onclick = function(){
+                    go();
+                }
+            }
+        </script>
+    </body>
+</html>
