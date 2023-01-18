@@ -112,7 +112,6 @@
 
                     for(let i = 0; i < data.length; i++){
                         let marker = L.marker([data[i].lat, data[i].lng])
-                        map.addLayer(marker)
 
                         markerClick = marker.bindPopup(
                             `
@@ -122,13 +121,8 @@
                         marker.addEventListener('click', function() {
                         bikeText.innerText = data.countyTown;
                         })
-                    }
-                    
-
-                    
-                    
-
-                    
+                        markers.addLayer(marker)
+                    }                    
                     //地圖圖片疊加
                     //疊加
                     
