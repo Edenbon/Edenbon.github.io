@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap demo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/ea1798ce02.js" crossorigin="anonymous"></script>
+    </head>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .container{
+            margin: auto;
+            width: 600px;
+        }
+        li{
+            margin: 10px;
+            border: 1px solid #333;
+            list-style: none;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Todo..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">新增</button>
+            </div>
+            <div class="list">
+                <ul class="listTo">
+                    <!-- <li>
+                        <div class="input-group mb-3">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input">
+                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with checkbox">
+                            <button class="btn btn-outline-secondary" type="button">編輯</button>
+                            <button class="btn btn-outline-secondary" type="button">刪除</button>
+                        </div>
+                    </li> -->
+                </ul>
+                
+            </div>
+        </div>
+        
+        <!-- 編輯 -->
+        <div id="edit-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">編輯</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="edit-value" type="text">
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="editTodoItem()" type="button" class="btn btn-success">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script>
+            //宣告    
+            let currentIndex;
+            //DOM
+            const listTo = document.querySelector('.listTo'); //事件列表
+            const sendData = document.querySelector('.btn-outline-secondary');   //新增事件按鈕
+            const input = document.querySelector('.form-control'); //輸入的資料
+            const data = JSON.parse(localStorage.getItem('listData')) || []; //先宣告一個陣列
+
+            const editModal = document.querySelector('#edit-modal');
+            const editValueInput = document.querySelector('#edit-value');
+
+            //-- 綁定監聽事件
+            sendData.addEventListener('click', addlistTo);   //點擊新增按鈕的事件監聽
+            listTo.addEventListener('click', listOperation);   //點擊刪除按鈕的事件監聽
+
+            //function
+            function addlistTo(){
+                if(input.value.length == 0){
+                    alert("Please Enter TodoList");
+                }else{
+                    let todo = { //定義todo物件
+                    contect: input.value,
+                    id: new Date().getTime(),
+                    checked:''
+                }
+                    data.push(todo);//加入代辦事項到陣列中
+                    localStorage.setItem('listData', JSON.stringify(data)); //將代辦事項轉成JSON字串
+                    updateList(data); //更新網頁內容
+                    input.value = ''; 
+                }
+            };
+
+            //更新網頁內容
+            function updateList(item) {
+                str = '';
+                for(var i = 0; i < item.length; i++){
+                    str += `<li data-id="${item[i].id}">
+                        <div class="input-group-text">
+                                <input class="form-check-input mt-0 check" type="checkbox" ${item[i].checked} >
+                        <input type="text" class="form-control" aria-label="Text input with checkbox" value="${item[i].contect}">
+                        </div>
+                        <button class="btn btn-warning btn-Edit" type="button" data-listnum='${i}'>編輯</button>
+                        <button class="btn btn-danger btn-Delete" type="button" data-listnum='${i}'>刪除</button>
+                        </li>`;
+                }
+                listTo.innerHTML = str; //新增完清空input
+            }
+
+            //刪除/編輯
+            function listOperation(e){
+                let dataID = parseInt(e.target.closest('li').dataset.id);
+                e.preventDefault(); //取消該事件 preventDefault() 方法不会阻止事件通过 DOM 进一步传播。请使用 stopPropagation() 方法来解决。
+                if(e.target.classList.contains('btn-Delete')){//確認點到元素
+                    e.preventDefault();
+
+                    let index = e.target.dataset.listnum; //定義選到的代辦事項
+                    data.splice(index, 1); //刪除事項
+                }else if(e.target.classList.contains('check')){
+                    data.forEach(item => {
+                        if(item.id === dataID){
+                            if(item.checked ===""){
+                                item.checked = "checked";
+                            }else{
+                                item.checked = "";
+                            }
+                        }
+                    });
+                }else if(e.target.classList.contains('btn-Edit')){
+                    e.preventDefault();
+                    currentIndex = e.target.dataset.listnum;
+                    bootstrap.Modal.getOrCreateInstance(editModal).show();
+                    editValueInput.value = data[currentIndex].contect;
+                }
+
+                //更新網頁內容
+                localStorage.setItem('listData', JSON.stringify(data));
+                updateList(data);
+            };
+
+            //確認修改
+            function editTodoItem(){
+                if(editValueInput.value.length == 0){
+                    alert("Please Enter TodoList");
+                }else{
+                    data[currentIndex].contect = editValueInput.value;
+                    bootstrap.Modal.getOrCreateInstance(editModal).hide();
+                    localStorage.setItem('listData', JSON.stringify(data));
+                    updateList(data);
+                }
+                
+            }
+
+            //window.onload
+            window.onload = function() {
+                updateList(data);
+            }
+        </script>
+    </body>
+</html>
